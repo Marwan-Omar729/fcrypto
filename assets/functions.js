@@ -1,11 +1,12 @@
 import crypto from 'crypto';
+import bcrypt from 'bcrypt';
 import cliProgress from 'cli-progress';
 
-/* ====== Encrypt Function with Real Progress ====== */
+/* ====== Encrypt Function ====== */
 async function encryptText(text, password, algorithm) {
   const salt = crypto.randomBytes(16);
   const iv = crypto.randomBytes(12);
-  const algo = algorithm|| 'aes-256-gcm';
+  const algo = algorithm || 'aes-256-gcm';
   let keyLength;
   if (algo.includes('256')) keyLength = 32;
   else if (algo.includes('192')) keyLength = 24;
@@ -40,8 +41,8 @@ async function encryptText(text, password, algorithm) {
   return finalPayload;
 }
 
-/* ====== Decrypt Function with Real Progress ====== */
-async function decryptText(payload, password, algorithm) {
+/* ====== Decrypt Function ====== */
+async function decryptText(payload, password, algorithm = 'aes-255-gcm') {
   const [saltB64, ivB64, authTagB64, encryptedData] = payload.split(':');
   const salt = Buffer.from(saltB64, 'base64');
   const iv = Buffer.from(ivB64, 'base64');
@@ -80,4 +81,27 @@ async function decryptText(payload, password, algorithm) {
   return decrypted;
 }
 
-export { encryptText, decryptText };
+let rounds = 10;
+
+async function createHash(password)
+{
+  const bar = new cliProgress.SingleBar({
+    format: 'Decrypting |{bar}| {percentage}%',
+    barCompleteChar: '\u2588',
+    barIncompleteChar: '\u2591',
+  }, cliProgress.Presets.shades_classic);
+
+  bar.start(rounds, 0);
+  let hash = password;
+
+  for(let i = 1; i <= rounds; i++)
+  {
+    hash = await bcrypt.hash(hash, 1);
+    bar.update(i);
+  }
+  bar.stop();
+
+  return hash;
+}
+
+export { encryptText, decryptText, createHash };

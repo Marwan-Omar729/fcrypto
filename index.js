@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import chalk from 'chalk';
 import { Command } from 'commander';
-import { encryptText, decryptText } from './assets/functions.js';
+import { encryptText, decryptText, createHash } from './assets/functions.js';
 
 const program = new Command();
 
@@ -23,8 +23,8 @@ program
         console.log(chalk.bold.green("Encrypted Text (copy this for decryption):"));
         console.log(`< ${encryptedPayload} >`);
         console.log(chalk.bold.blue("Algorithm: ") + options.alg);
-        console.log(chalk.bold.yellow("Note: ") + "Use the same password to decrypt this text. Encryption Done!");
-        console.log(chalk.italic.green("Encryption Done!"));
+        console.log(chalk.bold.yellow("⚠️  Note: ") + "Use the same password to decrypt this text. Encryption Done!");
+        console.log(chalk.green("Encryption Done! ✅"));
 
     }catch(e){console.log(chalk.bold.red(e))}
   });
@@ -40,9 +40,18 @@ program
 
         console.log(chalk.bgBlue.bold("\n========= fcrypto By Marwan Omar =========\n"));
         console.log(chalk.bold.green("Decrypted Text: ") + decrypted);
-        console.log(chalk.italic.green("Decryption Done!"));
+        console.log(chalk.green("Decryption Done! ✅"));
 
     }catch(e){console.log(chalk.bold.red(e))}
   });
 
+  program
+  .command('hash <password>')
+  .description('Create password hash')
+  .action(async (password) => {
+    const hash = await createHash(password);
+    console.log(chalk.bgBlue.bold("\n========= fcrypto By Marwan Omar =========\n"));
+    console.log(`< ${hash} >`);
+    console.log(chalk.green("Hash Done! ✅"));
+  });
 program.parse(process.argv);
