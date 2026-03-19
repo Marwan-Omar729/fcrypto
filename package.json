@@ -1,0 +1,31 @@
+{
+  "name": "fcrypto",
+  "version": "1.0.0",
+  "description": "A powerful and easy-to-use CLI tools for encrypting, descrypting, and generating hashes of various types. Ideal for developers who need a fast and secure way to manipulate data direclty from the terminal",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "fcrypto": "./index.js"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "cli-progress": "^3.12.0",
+    "commander": "^14.0.3"
+  },
+  "keywords": [
+    "CLI",
+    "Encryption",
+    "Descryption",
+    "Has",
+    "AES",
+    "SHA256",
+    "MD5",
+    "Base64",
+    "Crypto",
+    "Security",
+    "CLI-tool",
+    "NodeJs"
+  ],
+  "author": "Marwan Omar",
+  "license": "ISC"
+}
