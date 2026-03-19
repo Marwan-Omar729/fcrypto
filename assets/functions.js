@@ -81,8 +81,8 @@ async function decryptText(payload, password, algorithm = 'aes-255-gcm') {
   return decrypted;
 }
 
+/* ====== Hash Function ====== */
 let rounds = 10;
-
 async function createHash(password)
 {
   const bar = new cliProgress.SingleBar({

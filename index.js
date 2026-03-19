@@ -26,7 +26,7 @@ program
         console.log(chalk.bold.yellow("⚠️  Note: ") + "Use the same password to decrypt this text. Encryption Done!");
         console.log(chalk.green("Encryption Done! ✅"));
 
-    }catch(e){console.log(chalk.bold.red(e))}
+    }catch(e){console.log("❌", chalk.bold.red(e))}
   });
 
 program
@@ -42,16 +42,23 @@ program
         console.log(chalk.bold.green("Decrypted Text: ") + decrypted);
         console.log(chalk.green("Decryption Done! ✅"));
 
-    }catch(e){console.log(chalk.bold.red(e))}
+    }catch(e){console.log("❌", chalk.bold.red(e))}
   });
 
   program
   .command('hash <password>')
   .description('Create password hash')
   .action(async (password) => {
-    const hash = await createHash(password);
-    console.log(chalk.bgBlue.bold("\n========= fcrypto By Marwan Omar =========\n"));
-    console.log(`< ${hash} >`);
-    console.log(chalk.green("Hash Done! ✅"));
+
+    try{
+      const hash = await createHash(password);
+      console.log(chalk.bgBlue.bold("\n========= fcrypto By Marwan Omar =========\n"));
+      console.log(`< ${hash} >`);
+      console.log(chalk.green("Hash Done! ✅"));
+    }catch(e)
+    {
+      console.log("❌", chalk.bold.red(e));
+    }
+
   });
 program.parse(process.argv);
