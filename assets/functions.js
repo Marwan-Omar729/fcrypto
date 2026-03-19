@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
+import fs from "fs";
 import cliProgress from 'cli-progress';
 
 /* ====== Encrypt Function ====== */
@@ -42,40 +43,43 @@ async function encryptText(text, password, algorithm) {
 }
 
 /* ====== Decrypt Function ====== */
-async function decryptText(payload, password, algorithm = 'aes-255-gcm') {
+async function decryptText(payload, password, algorithm) {
   const [saltB64, ivB64, authTagB64, encryptedData] = payload.split(':');
   const salt = Buffer.from(saltB64, 'base64');
   const iv = Buffer.from(ivB64, 'base64');
   const authTag = Buffer.from(authTagB64, 'base64');
   const algo = algorithm || 'aes-256-gcm';
   let keyLength;
-  if (algorithm.includes('256')) keyLength = 32;
-  else if (algorithm.includes('192')) keyLength = 24;
+  if (algo.includes('256')) keyLength = 32;
+  else if (algo.includes('192')) keyLength = 24;
   else keyLength = 16;
   
   const key = crypto.pbkdf2Sync(password, salt, 100000, keyLength, 'sha256');
 
-  const decipher = crypto.createDecipheriv(algorithm, key, iv);
+  const decipher = crypto.createDecipheriv(algo, key, iv);
   decipher.setAuthTag(authTag);
 
   const chunkSize = 5;
   let decrypted = '';
+
+  const encryptedBuffer = Buffer.from(encryptedData, 'base64');
 
   const bar = new cliProgress.SingleBar({
     format: 'Decrypting |{bar}| {percentage}%',
     barCompleteChar: '\u2588',
     barIncompleteChar: '\u2591',
   }, cliProgress.Presets.shades_classic);
-  bar.start(encryptedData.length, 0);
+  bar.start(encryptedBuffer.length, 0);
 
-  for (let i = 0; i < encryptedData.length; i += chunkSize) {
-    const chunk = encryptedData.slice(i, i + chunkSize);
-    decrypted += decipher.update(chunk, 'base64', 'utf8');
-    bar.update(Math.min(i + chunk.length, encryptedData.length));
+  for (let i = 0; i < encryptedBuffer.length; i += chunkSize) {
+    const chunk = encryptedBuffer.slice(i, i + chunkSize);
+
+    decrypted += decipher.update(chunk, null, 'utf8');
+    bar.update(Math.min(i + chunk.length, encryptedBuffer.length));
     await new Promise(r => setTimeout(r, 10));
   }
   decrypted += decipher.final('utf8');
-  bar.update(encryptedData.length);
+  bar.update(encryptedBuffer.length);
   bar.stop();
 
   return decrypted;
@@ -86,7 +90,7 @@ let rounds = 10;
 async function createHash(password)
 {
   const bar = new cliProgress.SingleBar({
-    format: 'Decrypting |{bar}| {percentage}%',
+    format: 'Hashing |{bar}| {percentage}%',
     barCompleteChar: '\u2588',
     barIncompleteChar: '\u2591',
   }, cliProgress.Presets.shades_classic);
@@ -104,4 +108,11 @@ async function createHash(password)
   return hash;
 }
 
-export { encryptText, decryptText, createHash };
+/* ====== Get data from file ====== */
+function readFile(path)
+{
+    let data = fs.readFileSync(path, "utf8");
+    return data;
+}
+
+export { encryptText, decryptText, createHash, readFile };
