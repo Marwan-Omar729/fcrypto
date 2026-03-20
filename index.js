@@ -5,11 +5,13 @@ import { encryptText, decryptText, createHash, readFile } from './assets/functio
 
 const program = new Command();
 
+/* ====== Init Tool ====== */
 program
   .name('fcrypto')
   .description('CLI tool for encrypting/decrypting text with a password only')
   .version('1.0.0');
 
+/* ====== Encrypt command ====== */
 program
   .command('encrypt')
   .argument('[text]')
@@ -37,10 +39,12 @@ program
           text = readFile(options.file);
         }
 
-        console.log(chalk.bgRed.bold("\n========= fcrypto By Marwan Omar =========\n"));
+        console.log(chalk.bold.cyan("\n🔐 ———————— Fcrypto Tool v1.0.0 ———————— 🔐"));
+        console.log(chalk.hex("#8B4513")(" Developed by open-source tool enthusiasrs"));
+        console.log(chalk.bold.cyan("               ————————————————\n"))
         const encryptedPayload = await encryptText(text, options.password, options.alg);
-        console.log(chalk.bold.green("Encrypted Text (copy this for decryption):"));
-        console.log(`< ${encryptedPayload} >`);
+        console.log(chalk.bold.green("\nEncrypted Text (copy this for decryption):"));
+        console.log(chalk.bold.hex('#FFD700') (`${encryptedPayload}`));
         console.log(chalk.bold.blue("Algorithm: ") + options.alg);
         console.log(chalk.bold.yellow("⚠️  Note: ") + "Use the same password to decrypt this text. Encryption Done!");
         console.log(chalk.bold.green("Encryption Done! ✅"));
@@ -51,6 +55,7 @@ program
     }
   });
 
+/* ====== Decrypt command ====== */
 program
   .command('decrypt')
   .argument('[payload]')
@@ -78,10 +83,12 @@ program
           payload = readFile(options.file);
         }
 
-        console.log(chalk.bgBlue.bold("\n========= fcrypto By Marwan Omar =========\n"));
+        console.log(chalk.bold.cyan("\n🔐 ———————— Fcrypto Tool v1.0.0 ———————— 🔐"));
+        console.log(chalk.hex("#8B4513")(" Developed by open-source tool enthusiasrs"));
+        console.log(chalk.bold.cyan("               ————————————————\n"))
         const decrypted = await decryptText(payload, options.password, options.alg)
         console.log(chalk.bold.bold.green("Decrypted Text: "));
-        console.log(`< ${decrypted} >`);
+        console.log(chalk.bold.hex('#FFD700') (`< ${decrypted} >`));
         console.log(chalk.bold.green("Decryption Done! ✅"));
 
     }catch(e){
@@ -90,6 +97,7 @@ program
     }
   });
 
+ /* ====== Hash command ====== */
   program
   .command('hash')
   .argument('[password]')
@@ -110,10 +118,12 @@ program
         return null;
       }
 
-      console.log(chalk.bgBlue.bold("\n========= fcrypto By Marwan Omar =========\n"));
+      console.log(chalk.bold.cyan("\n🔐 ———————— Fcrypto Tool v1.0.0 ———————— 🔐"));
+      console.log(chalk.hex("#8B4513")(" Developed by open-source tool enthusiasrs"));
+      console.log(chalk.bold.cyan("               ————————————————\n"))
       const hash = await createHash(password);
       console.log(chalk.bold.green("Hashed Password: "));
-      console.log(`< ${hash} >`);
+      console.log(chalk.bold.hex('#FFD700') (`< ${hash} >`));
       console.log(chalk.bold.green("Hash Done! ✅"));
     }catch(e)
     {
