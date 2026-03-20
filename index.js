@@ -1,26 +1,35 @@
 #!/usr/bin/env node
 import chalk from 'chalk';
 import { Command } from 'commander';
-import { encryptText, decryptText, createHash, readFile } from './assets/functions.js';
+import { encryptText, decryptText, createHash, readFile, encryptFile, decryptFile } from './assets/functions.js';
 
+const cwd = process.cwd();
 const program = new Command();
 
 /* ====== Init Tool ====== */
 program
   .name('fcrypto')
-  .description('CLI tool for encrypting/decrypting text with a password only')
+  .description('CLI tool for encrypting/decrypting text, file and hash password, file')
   .version('1.0.0');
+
+  program.usage('fcrypto [commands] [options]')
 
 /* ====== Encrypt command ====== */
 program
-  .command('encrypt')
-  .argument('[text]')
-  .requiredOption('-p, --password <password>')
+  .command('encrypt [text]')
   .description('Encrypt text with a password')
-  .option('--alg <algo>', 'Encryption algorithm', 'aes-256-gcm')
-  .option('-f, --file <path>', 'Select file to get data', '')
+  .usage('[text] [options]')
+  .requiredOption('-p, --password <password>')
+  .option('-a, --alg <algo>', 'Encryption algorithm', 'aes-256-gcm')
+  .option('-i, --input <filepath>', 'Input file for encrypt', '')
+  .option('-o, --output <filepath>', 'Output file for encrypt')
   .action(async (text, options) => {
     try {
+      let encrypted = "";
+
+      console.log(chalk.bold.cyan("\n🔐 ———————— Fcrypto Tool v1.0.0 ———————— 🔐"));
+      console.log(chalk.hex("#8B4513")(" Developed by open-source tool enthusiasrs"));
+      console.log(chalk.bold.cyan("               ————————————————\n"))
 
       if(!options.password)
       {
@@ -28,26 +37,26 @@ program
         return null;
       }
 
-      if(!options.file && !text || options.file == "" && text == "")
+      if(!options.input && !options.output && !text || options.input == "" && options.output == "" && text == "")
       {
         console.log('⚠️', chalk.bold.yellow(" Warning: Please enter a text or file for encryption"));
         return null;
       }
 
-        if(options.file && !text || options.file && text == "")
+        if(options.input && options.output && !text || options.input !== "" && options.output !== "" && text == "")
         {
-          text = readFile(options.file);
+          encrypted = await encryptFile(options.input, options.output, options.password, options.alg);
+          console.log(chalk.bold.blue("Algorithm: ") + options.alg);
+          console.log(chalk.bold.yellow("⚠️  Note: ") + "Use the same password to decrypt this text. Encryption Done!");
+          console.log(chalk.bold.green("Encryption Done! ✅"));
+        }else{
+          encrypted = await encryptText(text, options.password, options.alg);
+          console.log(chalk.bold.green("\nEncrypted Text (copy this for decryption):"));
+          console.log(chalk.bold.hex('#FFD700') (`< ${encrypted}`));
+          console.log(chalk.bold.blue("Algorithm: ") + options.alg);
+          console.log(chalk.bold.yellow("⚠️  Note: ") + "Use the same password to decrypt this text. Encryption Done!");
+          console.log(chalk.bold.green("Encryption Done! ✅"));
         }
-
-        console.log(chalk.bold.cyan("\n🔐 ———————— Fcrypto Tool v1.0.0 ———————— 🔐"));
-        console.log(chalk.hex("#8B4513")(" Developed by open-source tool enthusiasrs"));
-        console.log(chalk.bold.cyan("               ————————————————\n"))
-        const encryptedPayload = await encryptText(text, options.password, options.alg);
-        console.log(chalk.bold.green("\nEncrypted Text (copy this for decryption):"));
-        console.log(chalk.bold.hex('#FFD700') (`${encryptedPayload}`));
-        console.log(chalk.bold.blue("Algorithm: ") + options.alg);
-        console.log(chalk.bold.yellow("⚠️  Note: ") + "Use the same password to decrypt this text. Encryption Done!");
-        console.log(chalk.bold.green("Encryption Done! ✅"));
 
     }catch(e){
       console.log("❌", chalk.bold.red(e));
@@ -57,36 +66,41 @@ program
 
 /* ====== Decrypt command ====== */
 program
-  .command('decrypt')
-  .argument('[payload]')
+  .command('decrypt [payload]')
   .requiredOption('-p, --password <password>')
-  .description('Decrypt text with the original password')
-  .option('--alg <algo>', 'Decryption algorithm', 'aes-256-gcm')
-  .option('-f ,--file <path>', 'Select file to get data', '')
+  .description('Decrypt text with the decrypt key')
+  .usage('[payload] [options]')
+  .option('--alg <algorithm>', 'Decryption algorithm')
+  .option('-i, --input <filepath>', 'Input file for encrypt', '')
+  .option('-o, --output <filepath>', 'Output file for encrypt')
   .action(async (payload, options) => {
     try{
 
+        let decrypted = "";
+
+        console.log(chalk.bold.cyan("\n🔐 ———————— Fcrypto Tool v1.0.0 ———————— 🔐"));
+        console.log(chalk.hex("#8B4513")(" Developed by open-source tool enthusiasrs"));
+        console.log(chalk.bold.cyan("               ————————————————\n"));
+
         if(!options.password)
         {
-          console.log('⚠️', chalk.bold.yellow(" Warning: Please enter a Password for decryption"));
+          console.log('⚠️', chalk.bold.yellow(" Warning: Please enter a key for decryption"));
           return null;
         }
 
-        if(!options.file && !payload || options.file == "" && payload == "")
+        if(!options.input && !options.output && !payload || options.input == "" && options.output == "" && payload == "")
         {
           console.log('⚠️', chalk.bold.yellow(" Warning: Please enter a payload or file for decryption"));
           return null;
         }
 
-        if(options.file && !payload || options.file && payload == "")
+        if(options.input && options.output && !payload || options.input && options.output && payload == "")
         {
-          payload = readFile(options.file);
+          decrypted = await decryptFile(options.input, options.output, options.password, options.algo);
+        }else{
+          decrypted = await decryptText(payload, options.password, options.alg);
         }
 
-        console.log(chalk.bold.cyan("\n🔐 ———————— Fcrypto Tool v1.0.0 ———————— 🔐"));
-        console.log(chalk.hex("#8B4513")(" Developed by open-source tool enthusiasrs"));
-        console.log(chalk.bold.cyan("               ————————————————\n"))
-        const decrypted = await decryptText(payload, options.password, options.alg)
         console.log(chalk.bold.bold.green("Decrypted Text: "));
         console.log(chalk.bold.hex('#FFD700') (`< ${decrypted} >`));
         console.log(chalk.bold.green("Decryption Done! ✅"));
@@ -99,8 +113,8 @@ program
 
  /* ====== Hash command ====== */
   program
-  .command('hash')
-  .argument('[password]')
+  .command('hash [password]')
+  .usage('[password] [options]')
   .option('-f, --file <path>', 'Select file to get data', '')
   .description('Create password hash')
   .action(async (password, options) => {
@@ -132,4 +146,5 @@ program
     }
 
   });
+  
 program.parse(process.argv);
