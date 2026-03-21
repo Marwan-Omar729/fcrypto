@@ -1,11 +1,13 @@
+/* ====== Library import ====== */
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import zlib from "zlib";
 import fs from "fs";
 import cliProgress from 'cli-progress';
+import QRCode from "qrcode";
 
-/* ====== Encrypt Function ====== */
-async function encryptText(text, password, algorithm) {
+/* ====== Encryption function ====== */
+async function encryptText(text, password, algorithm = 'aes-256-gcm') {
   const salt = crypto.randomBytes(16);
   const iv = crypto.randomBytes(12);
   const algo = algorithm || 'aes-256-gcm';
@@ -43,8 +45,8 @@ async function encryptText(text, password, algorithm) {
   return finalPayload;
 }
 
-/* ====== Decrypt Function ====== */
-async function decryptText(payload, password, algorithm) {
+/* ====== Decryption function ====== */
+async function decryptText(payload, password, algorithm = 'aes-256-gcm') {
   const [saltB64, ivB64, authTagB64, encryptedData] = payload.split(':');
   const salt = Buffer.from(saltB64, 'base64');
   const iv = Buffer.from(ivB64, 'base64');
@@ -86,7 +88,7 @@ async function decryptText(payload, password, algorithm) {
   return decrypted;
 }
 
-/* ====== Hash Function ====== */
+/* ====== Hash generation function ====== */
 let rounds = 10;
 async function createHash(password)
 {
@@ -109,6 +111,7 @@ async function createHash(password)
   return hash;
 }
 
+/* ====== File encryption function ====== */
 async function encryptFile(inputPath, outputPath, password, algorithm = 'aes-256-gcm') {
   return new Promise((resolve, reject) => {
     try {
@@ -174,6 +177,7 @@ async function encryptFile(inputPath, outputPath, password, algorithm = 'aes-256
   });
 }
 
+/* ====== File decryption function ====== */
 async function decryptFile(inputPath, outputPath, password, algorithm = 'aes-256-gcm') {
   return new Promise((resolve, reject) => {
     try {
@@ -181,7 +185,8 @@ async function decryptFile(inputPath, outputPath, password, algorithm = 'aes-256
       if (!allowedAlgos.includes(algorithm)) throw new Error('Unsupported algorithm');
 
       const stats = fs.statSync(inputPath);
-      const totalSize = stats.size;
+      const authTagLength = 16;
+      const totalSize = stats.size - 28 - authTagLength; 
       let processed = 0;
 
       const bar = new cliProgress.SingleBar({
@@ -208,7 +213,6 @@ async function decryptFile(inputPath, outputPath, password, algorithm = 'aes-256
       const keyLength = keyLengthMap[algorithm];
       const key = crypto.pbkdf2Sync(password, salt, 200000, keyLength, 'sha256');
 
-      const authTagLength = 16;
       const tagBuffer = Buffer.alloc(authTagLength);
       const fd2 = fs.openSync(inputPath, 'r');
       fs.readSync(fd2, tagBuffer, 0, authTagLength, stats.size - authTagLength);
@@ -244,6 +248,16 @@ async function decryptFile(inputPath, outputPath, password, algorithm = 'aes-256
   });
 }
 
+/* ====== Generate QR function ====== */
+function QRcode(txt)
+{
+  QRCode.toString(txt, { type: "terminal" }, (err, qr) => {
+    if(err){console.log("An error occurred while generating the QR code. Please try again."); return null;}
+
+    console.log(qr);
+  });
+}
+
 /* ====== Get data from file ====== */
 function readFile(path)
 {
@@ -251,4 +265,5 @@ function readFile(path)
     return data;
 }
 
-export { encryptText, decryptText, createHash, readFile, encryptFile, decryptFile };
+/* ====== Exporting functions ====== */
+export { encryptText, decryptText, createHash, readFile, encryptFile, decryptFile, QRcode };
