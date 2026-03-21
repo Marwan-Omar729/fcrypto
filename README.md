@@ -1,3 +1,4 @@
+
 # fcrypto
 
 A comprehensive tool for encrypting and decrypting text and files with passwords, featuring a powerful and easy-to-use set of features 🔒✨
@@ -117,4 +118,11 @@ fcrypto hash Password
 2. Youssef George (Assistant and originator of the file encryption idea)
 ---
 
+- Social Media:
+### Marwan Omar
+
+1. Whatsapp: 01273688106
+2. Facebook: https://www.facebook.com/marawan.omar.228383 
+3. Tiktok: https://www.tiktok.com/@kitsune_fire0?_r=1&_t=ZS-94srWcQ26mC
+---
 Modifying the tool and sharing it under a different name is permitted, provided you state that the tool Based on the fcrypto tool.
