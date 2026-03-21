@@ -55,7 +55,7 @@ Instead, fcrypto derives a 256-bit key from the password before encryption to en
 
 ```bash
 
-npm install -g fcrypto-cli
+npm install -g marwan-omar@fcrypto
 
 ```
 
