@@ -98,7 +98,7 @@ fcrypto hash Password
 
 1. Marwan Omar (Main programmer and originator of the idea)
 
-2. Youssef George0 (Assistant and originator of the file encryption idea)
+2. Youssef George (Assistant and originator of the file encryption idea)
 ---
 
 Modifying the tool and sharing it under a different name is permitted, provided you state that the tool Based on the fcrypto tool.
