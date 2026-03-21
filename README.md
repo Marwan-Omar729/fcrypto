@@ -26,6 +26,22 @@ A comprehensive tool for encrypting and decrypting text and files with passwords
 
 ---
 
+## Encryption
+
+fcrypto uses **AES-256-GCM** for encrypting both text and files. This mode provides:
+
+- Strong 256-bit encryption
+- Built-in authentication to detect tampering
+- Modern and secure design used in real-world security systems
+
+## Key Derivation
+
+User passwords are never used directly as encryption keys.
+
+Instead, fcrypto derives a 256-bit key from the password before encryption to ensure consistent and secure key length.
+
+---
+
 ## Requirements
 
 - Node.js 20 or higher
