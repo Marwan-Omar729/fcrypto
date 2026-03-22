@@ -1,5 +1,5 @@
 {
-  "name": "fcrypto",
+  "name": "fcrypto-cli",
   "version": "1.0.0",
   "description": "Encrypting and decrypting texts and files using only a password, and performing hashing of passwords and words from files.",
   "main": "index.js",

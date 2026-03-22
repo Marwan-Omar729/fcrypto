@@ -93,7 +93,7 @@ let rounds = 10;
 async function createHash(password)
 {
   const bar = new cliProgress.SingleBar({
-    format: 'Encrypting |{bar}| {percentage}%',
+    format: 'Hashing |{bar}| {percentage}%',
     barCompleteChar: '\u2588',
     barIncompleteChar: '\u2591',
   }, cliProgress.Presets.shades_classic);
@@ -249,13 +249,33 @@ async function decryptFile(inputPath, outputPath, password, algorithm = 'aes-256
 }
 
 /* ====== Generate QR function ====== */
-function QRcode(txt)
-{
+function QRcode(txt) {
   QRCode.toString(txt, { type: "terminal" }, (err, qr) => {
-    if(err){console.log("An error occurred while generating the QR code. Please try again."); return null;}
-
-    console.log(qr);
+    if(err) {
+      console.log("❌ An error occurred while generating the QR code. Please try again."); 
+      return null;
+    }
+    console.error('\n' + qr);
   });
+}
+
+/* ====== Save QR function ====== */
+function QRcodeSave(txt, saveAsImage = false, filename = 'qrcode.png')
+{
+  if(saveAsImage) {
+    QRCode.toFile(filename, txt, {
+      color: {
+        dark: '#000000',
+        light: '#FFFFFF' 
+      }
+    }, (err) => {
+      if(err) {
+        console.error("❌ An error occurred while generating the QR image.");
+      } else {
+        console.log(`\n✅ QR code saved as ${filename}`);
+      }
+    });
+  }
 }
 
 /* ====== Get data from file ====== */
@@ -266,4 +286,4 @@ function readFile(path)
 }
 
 /* ====== Exporting functions ====== */
-export { encryptText, decryptText, createHash, readFile, encryptFile, decryptFile, QRcode };
+export { encryptText, decryptText, createHash, readFile, encryptFile, decryptFile, QRcode, QRcodeSave };
