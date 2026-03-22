@@ -1,5 +1,5 @@
-
 # fcrypto
+![Tool's logo](https://res.cloudinary.com/dlmpljxm7/image/upload/v1774138429/fcrypto-logo_lznpux.png)
 
 A comprehensive tool for encrypting and decrypting text and files with passwords, featuring a powerful and easy-to-use set of features 🔒✨
 
