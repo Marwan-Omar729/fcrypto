@@ -55,7 +55,7 @@ Instead, fcrypto derives a 256-bit key from the password before encryption to en
 
 ```bash
 
-npm install -g marwan-omar@fcrypto
+npm install -g @marwan-omar/fcrypto
 
 ```
 
@@ -120,9 +120,7 @@ fcrypto hash Password
 
 - Social Media:
 ### Marwan Omar
-
-1. Whatsapp: 01273688106
-2. Facebook: https://www.facebook.com/marawan.omar.228383 
-3. Tiktok: https://www.tiktok.com/@kitsune_fire0?_r=1&_t=ZS-94srWcQ26mC
+1. E-mail: omarawan724@gmail.com
+2. Tiktok: https://www.tiktok.com/@kitsune_fire0?_r=1&_t=ZS-94srWcQ26mC
 ---
 Modifying the tool and sharing it under a different name is permitted, provided you state that the tool Based on the fcrypto tool.
