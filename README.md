@@ -56,6 +56,8 @@ A comprehensive CLI tool for encrypting and decrypting text and files with passw
 * Convert passwords to **QR codes** for easy sharing
 
 * Open source and easy to use
+  
+* Support for pipes in Unix
 
   
 
