@@ -1,5 +1,5 @@
 
-# fcrypto
+# fcrypto 1.0.1
 
 ![Tool's logo](https://res.cloudinary.com/dlmpljxm7/image/upload/v1774138429/fcrypto-logo_lznpux.png)
 
@@ -119,7 +119,7 @@ A comprehensive CLI tool for encrypting and decrypting text and files with passw
 
 ```bash
 
-npm install -g @marwan-omar/fcrypto
+npm install -g fcrypto-cli
 
 ```
 
