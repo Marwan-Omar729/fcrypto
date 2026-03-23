@@ -1,5 +1,5 @@
 
-# fcrypto 1.0.0
+# fcrypto 1.0.1
 
 ![Tool's logo](https://res.cloudinary.com/dlmpljxm7/image/upload/v1774138429/fcrypto-logo_lznpux.png)
 
