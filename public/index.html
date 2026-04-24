@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS Style -->
+    <link rel="stylesheet" href="./css/style.css">
+
+    <title>Fcrypto GUI</title>
+</head>
+<body>
+    
+    <div class="forms">
+
+        <form class="active" action="/encryptText" method="post">
+    
+            <input type="text" id="Text" name="Text" placeholder="Enter text for encryption">
+            <input type="text" id="Password" name="Password" placeholder="Enter password for encryption">
+            <button type="submit">Encrypt</button>
+    
+        </form>
+    
+        <form action="/encryptFile" method="post">
+        
+            <input type="file" id="Input" name="Input">
+            <input type="file" id="Output" name="Output">
+            <input type="text" id="Password" name="Password">
+            <button type="submit">Encrypt</button>
+            <div id="TEXTENCRYPT_result"></div>
+    
+        </form>
+
+    </div>
+
+</body>
+</html>

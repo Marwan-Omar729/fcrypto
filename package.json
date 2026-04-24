@@ -1,24 +1,26 @@
 {
   "name": "fcrypto-cli",
-  "version": "1.0.0",
+  "version": "2.1.1",
   "description": "Encrypting and decrypting texts and files using only a password, and performing hashing of passwords and words from files.",
-  "main": "index.js",
+  "main": "./cli/index.js",
   "type": "module",
   "bin": {
-    "fcrypto": "./index.js"
+    "fcrypto": "./cli/index.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "chalk": "^5.6.2",
     "cli-progress": "^3.12.0",
     "commander": "^14.0.3",
+    "express": "^5.2.1",
+    "open": "^11.0.0",
     "qrcode": "^1.5.4"
   },
   "keywords": [
     "CLI",
     "Encryption",
     "Descryption",
-    "Has",
+    "Hash",
     "AES",
     "SHA256",
     "MD5",

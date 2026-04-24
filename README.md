@@ -1,127 +1,299 @@
-# fcrypto
+
+# fcrypto 2.1.1
+
 ![Tool's logo](https://res.cloudinary.com/dlmpljxm7/image/upload/v1774138429/fcrypto-logo_lznpux.png)
 
-A comprehensive tool for encrypting and decrypting text and files with passwords, featuring a powerful and easy-to-use set of features 🔒✨
+  
+
+A comprehensive CLI tool for encrypting and decrypting text and files with passwords, featuring a powerful and easy-to-use set of features 🔒✨
+
+ 
+---
+
+ 
+## 📖 Table of Contents
+
+  
+
+1. [Features](#features)
+
+2. [Encryption Details](#encryption-details)
+
+3. [Key Derivation](#key-derivation)
+
+4. [Requirements](#requirements)
+
+5. [Installation](#installation)
+
+6. [Usage Examples](#usage-examples)
+
+7. [Errors & Warnings](#errors--warnings)
+
+8. [Contributing](#contributing)
+
+9. [Contact](#contact)
+
+  
 
 ---
 
-## Features
+  
 
-1. Encrypt and decrypt text with passwords
+## 🔹 Features
 
-2. Encrypt and decrypt files with passwords
+  
 
-3. Choose any AES algorithm you need
+* Fixing bugs that were present in the first version
 
-4. Uses a powerful algorithm for file encryption
+* Minor adjustments to the tool
 
-5. Hash passwords
+* Run the tool as a **GUI** for easier interaction.
 
-6. Extract passwords from a text file if hashing is performed
+* UI and UX improvement
 
-7. Easy to use
+* Adding the feature to specify the Salt value during the Hash operation
 
-8. Convert passwords to QR codes for easy sharing
-
-9. Open source
 
 ---
 
-## Encryption
+  
 
-fcrypto uses **AES-256-GCM** for encrypting both text and files. This mode provides:
+## 🔐 Encryption Details
 
-- Strong 256-bit encryption
-- Built-in authentication to detect tampering
-- Modern and secure design used in real-world security systems
+  
 
-## Key Derivation
+* Uses **AES-256-GCM** for both text and files
 
-User passwords are never used directly as encryption keys.
+* Strong 256-bit encryption
 
-Instead, fcrypto derives a 256-bit key from the password before encryption to ensure consistent and secure key length.
+* Built-in authentication to detect tampering
 
----
+* Modern and secure design used in real-world systems
 
-## Requirements
-
-- Node.js 20 or higher
+  
 
 ---
 
-## How to Run It
+  
 
-### 1. Run the full tool
+## 🗝 Key Derivation
+
+  
+
+* Passwords are **never used directly** as encryption keys
+
+* fcrypto derives a **256-bit key** from the password to ensure strong and consistent encryption
+
+  
+
+---
+
+  
+
+## ⚙ Requirements
+
+  
+
+* Node.js **20 or higher**
+
+  
+
+---
+
+  
+
+## 💾 Installation
+
+  
+
+### 1. Install as a global tool
+
+  
 
 ```bash
 
-npm install -g @marwan-omar/fcrypto
+npm install -g fcrypto-cli
 
 ```
 
-Now you can run it like any other system tool.
+  
 
+Now you can run `fcrypto` like any system command.
 
----
+  
 
-## 2. Running the open code
+### 2. Run from code (for development)
 
-1. Navigate to the project folder
-
-2. Execute:
+  
 
 ```bash
+
+git clone https://github.com/Marwan-Omar729/fcrypto.git
+
+cd fcrypto
 
 npm install
 
 npm link
 
 ```
-And that's how you run it like any other tool.
+
+  
+
+Then you can use it as a CLI tool locally.
+
+  
 
 ---
-### Examples of using the tool:
+
+  
+
+## 🛠 Usage Examples
+
+  
+
+### Encrypt Text
+
+  
 
 ```bash
-fcrypto encrypt TEXT -p Password
+
+fcrypto encrypt "Hello World" -p myPassword
+
 ```
 
-- Here, the tool encrypts the "TEXT" text. The command means:
-- fcrypto: The tool's name
-- encrypt: The command to encrypt the text
-- TEXT: The text
-- -p: Tells the tool that the following text is the password for encryption
+  
 
-Example of decryption:
+### Decrypt Text
+
+  
 
 ```bash
-fcrypto decrypt Payload -p Password
+
+fcrypto decrypt "EncryptedPayload" -p myPassword
 
 ```
 
-- Payload: The encrypted text
+  
 
-Example of creating a hash:
+### Encrypt a File
+
+  
 
 ```bash
-fcrypto hash Password
+
+fcrypto encrypt -i myfile.txt -o Encryptedfile -p myPassword
+
 ```
 
-- Password: The password you want to use to create the hash
+  
 
-----
+### Decrypt a File
 
-- ​​The tool was developed by:
+  
 
-1. Marwan Omar (Main programmer and originator of the idea)
+```bash
 
-2. Youssef George (Assistant and originator of the file encryption idea)
+fcrypto decrypt -i Encryptedfile.enc -o Decryptedfile.txt -p myPassword
+
+```
+
+  
+
+### Create a Hash of a Password
+
+  
+
+```bash
+
+fcrypto hash "myPassword" -s saltValue
+
+```
+### Create a Hash  a Password from file
+
+  ```bash
+
+fcrypto hash -f  myfile.txt
+
+```
+
+### Generate QR Code for a Password
+
+  
+
+```bash
+
+fcrypto encrypt Mytext -p Mypassword "myPassword" --qr -s QRcode
+
+```
+
+- -s: to save QR code
+
+  
+
 ---
 
-- Social Media:
-### Marwan Omar
-1. E-mail: omarawan724@gmail.com
-2. Tiktok: https://www.tiktok.com/@kitsune_fire0?_r=1&_t=ZS-94srWcQ26mC
-3. Github: https://github.com/Marwan-Omar729
+  
+
+## ⚠ Errors & Warnings
+
+  
+
+| Error | Meaning | Solution |
+
+| -------------------- | ---------------------------- | ------------------------------------------ |
+
+| `Password too short` | Password length insufficient | Use a password with at least 8 characters |
+
+| `File not found` | Input file missing | Check the file path and try again |
+
+| `Invalid command` | Command not recognized | Use `fcrypto --help` to see valid commands |
+
+  
+
 ---
-Modifying the tool and sharing it under a different name is permitted, provided you state that the tool Based on the fcrypto tool.
+
+  
+
+## 🤝 Contributing
+
+  
+
+* Fork the repository
+
+* Make your changes
+
+* Open a Pull Request with your improvements
+
+* Ensure CLI commands work correctly and test all features
+
+  
+
+---
+
+  
+
+## 📬 Contact
+
+  
+
+**Marwan Omar** – Main programmer and originator of the idea
+
+  
+
+* E-mail: [omarawan724@gmail.com](mailto:omarawan724@gmail.com)
+
+* TikTok: [@kitsune_fire0](https://www.tiktok.com/@kitsune_fire0?_r=1&_t=ZS-94srWcQ26mC)
+
+* GitHub: [Marwan-Omar729](https://github.com/Marwan-Omar729)
+
+  
+
+**Youssef George** – Assistant and originator of file encryption idea
+
+  
+
+> Modifying the tool and sharing it under a different name is permitted, provided you state that the tool is based on fcrypto.
+
+
+---
