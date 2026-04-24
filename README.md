@@ -1,7 +1,7 @@
 
 # fcrypto 2.1.1
 
-![Tool's logo](https://res.cloudinary.com/dlmpljxm7/image/upload/v1774138429/fcrypto-logo_lznpux.png)
+![Tool's logo](https://res.cloudinary.com/dlmpljxm7/image/upload/v1777068067/fcrypto-icon-unbackground_h9kymb.png)
 
   
 
